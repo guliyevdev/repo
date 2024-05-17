@@ -1,0 +1,30 @@
+name : Hello
+on:
+  push:
+    branches:
+      - main
+      - dev
+      - dev-*
+  pull_request:
+    types :[opened, synchronize, reopened, closed]
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send email notification
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.MAIL_TO }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: ${{ github.event_name }} Notification
+          body:    |
+            Repository: ${{ github.repository }}
+            Event: ${{ github.event_name }}
+            Ref: ${{ github.ref }}
+            Action: ${{ github.action }}
+            Actor: ${{ github.actor }}
+            Workflow: ${{ github.workflow }}
+          to: ${{ secrets.MAIL_TO }}
+          from: ${{ secrets.MAIL_TO }}
