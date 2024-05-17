@@ -28,4 +28,3 @@ jobs:
             Workflow: ${{ github.workflow }}
           to: ${{ secrets.MAIL_TO }}
           from: ${{ secrets.MAIL_TO }}
-          
